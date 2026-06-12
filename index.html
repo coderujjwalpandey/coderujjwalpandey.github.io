@@ -1,9 +1,593 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Ujjwal Pandey</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --purple: #7F77DD;
+    --purple-light: #EEEDFE;
+    --teal: #1D9E75;
+    --teal-light: #E1F5EE;
+    --coral: #D85A30;
+    --coral-light: #FAECE7;
+    --pink: #D4537E;
+    --pink-light: #FBEAF0;
+    --amber: #EF9F27;
+    --amber-light: #FAEEDA;
+    --blue: #378ADD;
+    --blue-light: #E6F1FB;
+    --bg: #0D0B1A;
+    --surface: #16132A;
+    --surface2: #1E1A35;
+    --text: #F0EEF9;
+    --text-muted: #A09BBB;
+    --border: rgba(255,255,255,0.08);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Space Grotesk', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.25rem 5%;
+    background: rgba(13,11,26,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 0.5px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 1.4rem;
+    background: linear-gradient(135deg, var(--purple), var(--pink));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: var(--text-muted); text-decoration: none;
+    font-size: 0.9rem; font-weight: 500; letter-spacing: 0.03em;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 6rem 5% 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-blobs {
+    position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  }
+  .blob {
+    position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.18;
+  }
+  .blob-1 { width: 500px; height: 500px; background: var(--purple); top: -10%; left: -10%; }
+  .blob-2 { width: 400px; height: 400px; background: var(--teal); bottom: 0; right: -5%; }
+  .blob-3 { width: 300px; height: 300px; background: var(--coral); top: 40%; left: 40%; }
+
+  .hero-eyebrow {
+    font-size: 0.8rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--purple); margin-bottom: 1.25rem; position: relative; z-index: 1;
+  }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.8rem, 8vw, 6rem);
+    font-weight: 800; line-height: 1.05;
+    position: relative; z-index: 1;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero h1 .name-block {
+    display: block;
+    background: linear-gradient(135deg, #fff 30%, var(--purple) 70%, var(--pink));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+
+  .hero-desc {
+    font-size: 1.1rem; color: var(--text-muted); max-width: 520px;
+    line-height: 1.7; position: relative; z-index: 1; margin-bottom: 2.5rem;
+  }
+
+  .hero-tags {
+    display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center;
+    position: relative; z-index: 1; margin-bottom: 3rem;
+  }
+  .tag {
+    padding: 0.4rem 1rem; border-radius: 999px;
+    font-size: 0.8rem; font-weight: 600; letter-spacing: 0.03em;
+  }
+  .tag-purple { background: rgba(127,119,221,0.2); color: #AFA9EC; border: 1px solid rgba(127,119,221,0.3); }
+  .tag-teal   { background: rgba(29,158,117,0.2); color: #5DCAA5; border: 1px solid rgba(29,158,117,0.3); }
+  .tag-coral  { background: rgba(216,90,48,0.2); color: #F0997B; border: 1px solid rgba(216,90,48,0.3); }
+  .tag-pink   { background: rgba(212,83,126,0.2); color: #ED93B1; border: 1px solid rgba(212,83,126,0.3); }
+  .tag-amber  { background: rgba(239,159,39,0.2); color: #FAC775; border: 1px solid rgba(239,159,39,0.3); }
+
+  .hero-cta {
+    display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
+    position: relative; z-index: 1;
+  }
+  .btn-primary {
+    padding: 0.85rem 2rem; border-radius: 999px;
+    background: linear-gradient(135deg, var(--purple), var(--pink));
+    color: #fff; font-weight: 600; font-size: 0.95rem;
+    text-decoration: none; border: none; cursor: pointer;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .btn-primary:hover { opacity: 0.88; transform: translateY(-2px); }
+  .btn-outline {
+    padding: 0.85rem 2rem; border-radius: 999px;
+    background: transparent; color: var(--text);
+    font-weight: 600; font-size: 0.95rem;
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.2);
+    transition: background 0.2s, transform 0.2s;
+  }
+  .btn-outline:hover { background: rgba(255,255,255,0.06); transform: translateY(-2px); }
+
+  /* SECTIONS */
+  section { padding: 6rem 5%; }
+  .section-label {
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 0.2em;
+    text-transform: uppercase; margin-bottom: 0.75rem;
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 800; line-height: 1.15;
+    margin-bottom: 1rem;
+  }
+  .section-divider {
+    height: 0.5px; background: var(--border); margin-bottom: 4rem;
+  }
+
+  .container { max-width: 1100px; margin: 0 auto; }
+
+  /* ABOUT */
+  #about { background: var(--surface); }
+  .about-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+  }
+  .about-avatar-wrap {
+    display: flex; align-items: center; justify-content: center;
+  }
+  .about-avatar {
+    width: 240px; height: 240px; border-radius: 50%;
+    background: linear-gradient(135deg, #534AB7, #D4537E);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif; font-size: 5rem; font-weight: 800;
+    color: white;
+    box-shadow: 0 0 0 12px rgba(127,119,221,0.15), 0 0 0 24px rgba(127,119,221,0.07);
+  }
+  .about-content h2 { margin-bottom: 1.25rem; }
+  .about-content p {
+    color: var(--text-muted); line-height: 1.8; font-size: 1rem; margin-bottom: 1rem;
+  }
+  .about-stats {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 2rem;
+  }
+  .stat-card {
+    background: var(--surface2); border-radius: 12px; padding: 1rem;
+    text-align: center; border: 0.5px solid var(--border);
+  }
+  .stat-number {
+    font-family: 'Syne', sans-serif; font-size: 1.6rem; font-weight: 800;
+    background: linear-gradient(135deg, var(--purple), var(--pink));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .stat-label { font-size: 0.72rem; color: var(--text-muted); margin-top: 4px; font-weight: 500; }
+
+  /* EDUCATION */
+  #education { background: var(--bg); }
+  .education-grid { display: flex; flex-direction: column; gap: 1.5rem; }
+  .edu-card {
+    background: var(--surface);
+    border-radius: 16px;
+    border: 0.5px solid var(--border);
+    padding: 1.75rem 2rem;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 1.5rem;
+    align-items: start;
+    transition: border-color 0.2s, transform 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .edu-card::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+    width: 4px; border-radius: 4px 0 0 4px;
+  }
+  .edu-card.purple::before { background: linear-gradient(180deg, var(--purple), var(--pink)); }
+  .edu-card.teal::before { background: linear-gradient(180deg, var(--teal), var(--blue)); }
+  .edu-card.coral::before { background: linear-gradient(180deg, var(--coral), var(--amber)); }
+  .edu-card:hover { border-color: rgba(255,255,255,0.15); transform: translateY(-2px); }
+
+  .edu-icon {
+    width: 48px; height: 48px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; flex-shrink: 0;
+  }
+  .edu-icon.purple { background: rgba(127,119,221,0.2); }
+  .edu-icon.teal { background: rgba(29,158,117,0.2); }
+  .edu-icon.coral { background: rgba(216,90,48,0.2); }
+
+  .edu-body { min-width: 0; }
+  .edu-degree {
+    font-family: 'Syne', sans-serif; font-size: 1.05rem; font-weight: 700;
+    margin-bottom: 0.3rem;
+  }
+  .edu-school { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.75rem; }
+  .edu-desc { color: var(--text-muted); font-size: 0.88rem; line-height: 1.65; }
+
+  .edu-badge-wrap { display: flex; flex-direction: column; gap: 0.5rem; align-items: flex-end; }
+  .edu-year {
+    font-size: 0.78rem; font-weight: 600; color: var(--text-muted);
+    white-space: nowrap;
+  }
+  .edu-grade {
+    padding: 0.3rem 0.75rem; border-radius: 999px;
+    font-size: 0.75rem; font-weight: 700;
+  }
+  .grade-purple { background: rgba(127,119,221,0.2); color: #AFA9EC; }
+  .grade-teal { background: rgba(29,158,117,0.2); color: #5DCAA5; }
+  .grade-coral { background: rgba(239,159,39,0.2); color: #FAC775; }
+
+  /* ACHIEVEMENTS */
+  #achievements { background: var(--surface); }
+  .achievements-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem;
+  }
+  .achievement-card {
+    background: var(--surface2); border-radius: 16px;
+    border: 0.5px solid var(--border);
+    padding: 1.5rem;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+  .achievement-card:hover { transform: translateY(-3px); border-color: rgba(255,255,255,0.15); }
+  .ach-icon {
+    width: 44px; height: 44px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem; margin-bottom: 1rem;
+  }
+  .ach-icon.gold { background: rgba(239,159,39,0.2); }
+  .ach-icon.purple { background: rgba(127,119,221,0.2); }
+  .ach-icon.teal { background: rgba(29,158,117,0.2); }
+  .ach-icon.coral { background: rgba(216,90,48,0.2); }
+  .ach-icon.pink { background: rgba(212,83,126,0.2); }
+  .ach-icon.blue { background: rgba(55,138,221,0.2); }
+  .ach-title {
+    font-family: 'Syne', sans-serif; font-size: 0.95rem; font-weight: 700;
+    margin-bottom: 0.4rem;
+  }
+  .ach-org { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.6rem; }
+  .ach-desc { font-size: 0.83rem; color: var(--text-muted); line-height: 1.6; }
+  .ach-year {
+    margin-top: 1rem; font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 0.1em; color: var(--text-muted);
+    text-transform: uppercase;
+  }
+
+  /* SKILLS */
+  #skills { background: var(--bg); }
+  .skills-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem;
+  }
+  .skill-group {
+    background: var(--surface); border-radius: 16px;
+    border: 0.5px solid var(--border); padding: 1.5rem;
+  }
+  .skill-group-title {
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em;
+    text-transform: uppercase; margin-bottom: 1.25rem;
+  }
+  .skill-list { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .skill-pill {
+    padding: 0.35rem 0.85rem; border-radius: 999px;
+    font-size: 0.78rem; font-weight: 600;
+  }
+
+  /* CONTACT */
+  #contact { background: var(--surface); }
+  .contact-inner {
+    max-width: 640px; margin: 0 auto; text-align: center;
+  }
+  .contact-inner .section-title { margin-bottom: 1rem; }
+  .contact-inner p { color: var(--text-muted); line-height: 1.7; margin-bottom: 2.5rem; }
+  .contact-links { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  .contact-link {
+    display: flex; align-items: center; gap: 0.5rem;
+    padding: 0.75rem 1.5rem; border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: var(--surface2); color: var(--text);
+    text-decoration: none; font-weight: 600; font-size: 0.88rem;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .contact-link:hover { border-color: var(--purple); background: rgba(127,119,221,0.1); }
+
+  /* FOOTER */
+  footer {
+    text-align: center; padding: 2rem 5%;
+    border-top: 0.5px solid var(--border);
+    color: var(--text-muted); font-size: 0.82rem;
+  }
+
+  @media (max-width: 700px) {
+    .about-grid { grid-template-columns: 1fr; }
+    .about-avatar-wrap { justify-content: flex-start; }
+    .edu-card { grid-template-columns: auto 1fr; }
+    .edu-badge-wrap { flex-direction: row; align-items: center; grid-column: 1 / -1; }
+    .nav-links { display: none; }
+  }
+</style>
 </head>
 <body>
-    <h1>Hello GitHub Pages!</h1>
+
+<nav>
+  <span class="nav-logo">Amy ✦</span>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#achievements">Achievements</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-blobs">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+  <p class="hero-eyebrow">✦ Welcome to my portfolio</p>
+  <h1>
+    Hello, I'm
+    <span class="name-block">Amy</span>
+  </h1>
+  <p class="hero-desc">
+    A passionate student and lifelong learner, turning curiosity into capability — one achievement at a time.
+  </p>
+  <div class="hero-tags">
+    <span class="tag tag-purple">Student</span>
+    <span class="tag tag-teal">Problem Solver</span>
+    <span class="tag tag-coral">Creative Thinker</span>
+    <span class="tag tag-pink">Fast Learner</span>
+    <span class="tag tag-amber">Team Player</span>
+  </div>
+  <div class="hero-cta">
+    <a href="#achievements" class="btn-primary">View Achievements</a>
+    <a href="#contact" class="btn-outline">Get in Touch</a>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-avatar-wrap">
+        <div class="about-avatar">A</div>
+      </div>
+      <div class="about-content">
+        <p class="section-label" style="color:var(--purple);">✦ About Me</p>
+        <h2 class="section-title">Driven by curiosity, shaped by learning</h2>
+        <p>
+          I'm Amy — a dedicated student with a passion for learning, growth, and making an impact. I thrive on challenges that push me to think differently and find creative solutions.
+        </p>
+        <p>
+          Whether in the classroom or beyond, I bring enthusiasm and commitment to everything I pursue. My academic journey has been filled with meaningful experiences that have shaped who I am today.
+        </p>
+        <div class="about-stats">
+          <div class="stat-card">
+            <div class="stat-number">3.9</div>
+            <div class="stat-label">GPA</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">10+</div>
+            <div class="stat-label">Awards</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">5+</div>
+            <div class="stat-label">Projects</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="container">
+    <p class="section-label" style="color:var(--teal);">✦ Education</p>
+    <h2 class="section-title">Academic journey</h2>
+    <div class="section-divider"></div>
+    <div class="education-grid">
+
+      <div class="edu-card purple">
+        <div class="edu-icon purple">🎓</div>
+        <div class="edu-body">
+          <p class="edu-degree">Bachelor of Science — Computer Science</p>
+          <p class="edu-school">University of Technology</p>
+          <p class="edu-desc">Focusing on software engineering, algorithms, and data structures. Active member of the coding club and participated in multiple hackathons.</p>
+        </div>
+        <div class="edu-badge-wrap">
+          <span class="edu-year">2022 – Present</span>
+          <span class="edu-grade grade-purple">GPA 3.9</span>
+        </div>
+      </div>
+
+      <div class="edu-card teal">
+        <div class="edu-icon teal">🏫</div>
+        <div class="edu-body">
+          <p class="edu-degree">Higher Secondary Certificate (HSC)</p>
+          <p class="edu-school">City Model School & College</p>
+          <p class="edu-desc">Science stream with Mathematics and Physics. Graduated with distinction and was recognized as a top performer in the district.</p>
+        </div>
+        <div class="edu-badge-wrap">
+          <span class="edu-year">2020 – 2022</span>
+          <span class="edu-grade grade-teal">Top 5%</span>
+        </div>
+      </div>
+
+      <div class="edu-card coral">
+        <div class="edu-icon coral">📚</div>
+        <div class="edu-body">
+          <p class="edu-degree">Secondary School Certificate (SSC)</p>
+          <p class="edu-school">Sunrise Secondary School</p>
+          <p class="edu-desc">Completed with full marks in Mathematics. Awarded best student for three consecutive years and served as class representative.</p>
+        </div>
+        <div class="edu-badge-wrap">
+          <span class="edu-year">2018 – 2020</span>
+          <span class="edu-grade grade-coral">A+</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ACHIEVEMENTS -->
+<section id="achievements">
+  <div class="container">
+    <p class="section-label" style="color:var(--coral);">✦ Achievements</p>
+    <h2 class="section-title">Milestones that matter</h2>
+    <div class="section-divider"></div>
+    <div class="achievements-grid">
+
+      <div class="achievement-card">
+        <div class="ach-icon gold">🏆</div>
+        <p class="ach-title">National Olympiad — Gold Medal</p>
+        <p class="ach-org">National Science Foundation</p>
+        <p class="ach-desc">Ranked 1st in the national science olympiad among 10,000+ students across the country.</p>
+        <p class="ach-year">2023</p>
+      </div>
+
+      <div class="achievement-card">
+        <div class="ach-icon purple">💡</div>
+        <p class="ach-title">Hackathon Winner — Best Innovation</p>
+        <p class="ach-org">TechFest University Hackathon</p>
+        <p class="ach-desc">Led a team of 4 to build an AI-powered accessibility tool in 36 hours, winning best innovation award.</p>
+        <p class="ach-year">2023</p>
+      </div>
+
+      <div class="achievement-card">
+        <div class="ach-icon teal">📜</div>
+        <p class="ach-title">Dean's List — Academic Excellence</p>
+        <p class="ach-org">University of Technology</p>
+        <p class="ach-desc">Consistently maintained above 3.8 GPA earning a place on the Dean's List for two semesters.</p>
+        <p class="ach-year">2022 – 2023</p>
+      </div>
+
+      <div class="achievement-card">
+        <div class="ach-icon coral">🌍</div>
+        <p class="ach-title">Model UN — Best Delegate</p>
+        <p class="ach-org">Regional Model United Nations</p>
+        <p class="ach-desc">Awarded Best Delegate for representing France in the Human Rights Council at the regional MUN conference.</p>
+        <p class="ach-year">2022</p>
+      </div>
+
+      <div class="achievement-card">
+        <div class="ach-icon pink">🎤</div>
+        <p class="ach-title">Public Speaking — First Place</p>
+        <p class="ach-org">Inter-College Debate Championship</p>
+        <p class="ach-desc">Won first place in the inter-college debate on "Technology and Ethics," competing against 32 colleges.</p>
+        <p class="ach-year">2022</p>
+      </div>
+
+      <div class="achievement-card">
+        <div class="ach-icon blue">🔬</div>
+        <p class="ach-title">Research Publication</p>
+        <p class="ach-org">International Student Journal</p>
+        <p class="ach-desc">Co-authored a research paper on machine learning applications in healthcare, published in an international student journal.</p>
+        <p class="ach-year">2024</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="container">
+    <p class="section-label" style="color:var(--pink);">✦ Skills</p>
+    <h2 class="section-title">What I bring to the table</h2>
+    <div class="section-divider"></div>
+    <div class="skills-grid">
+
+      <div class="skill-group">
+        <p class="skill-group-title" style="color:var(--purple);">Technical</p>
+        <div class="skill-list">
+          <span class="skill-pill tag-purple">Python</span>
+          <span class="skill-pill tag-purple">Java</span>
+          <span class="skill-pill tag-purple">HTML/CSS</span>
+          <span class="skill-pill tag-purple">JavaScript</span>
+          <span class="skill-pill tag-purple">SQL</span>
+          <span class="skill-pill tag-purple">Git</span>
+        </div>
+      </div>
+
+      <div class="skill-group">
+        <p class="skill-group-title" style="color:var(--teal);">Academic</p>
+        <div class="skill-list">
+          <span class="skill-pill tag-teal">Research</span>
+          <span class="skill-pill tag-teal">Data Analysis</span>
+          <span class="skill-pill tag-teal">Report Writing</span>
+          <span class="skill-pill tag-teal">Problem Solving</span>
+          <span class="skill-pill tag-teal">Mathematics</span>
+        </div>
+      </div>
+
+      <div class="skill-group">
+        <p class="skill-group-title" style="color:var(--coral);">Soft Skills</p>
+        <div class="skill-list">
+          <span class="skill-pill tag-coral">Leadership</span>
+          <span class="skill-pill tag-coral">Teamwork</span>
+          <span class="skill-pill tag-coral">Public Speaking</span>
+          <span class="skill-pill tag-coral">Critical Thinking</span>
+          <span class="skill-pill tag-coral">Time Management</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-inner">
+      <p class="section-label" style="color:var(--amber);">✦ Contact</p>
+      <h2 class="section-title">Let's connect</h2>
+      <p>Have a question, an opportunity, or just want to say hello? I'd love to hear from you. Whether it's a project collaboration or a conversation, I'm always open.</p>
+      <div class="contact-links">
+        <a href="mailto:amy@email.com" class="contact-link">📧 amy@email.com</a>
+        <a href="#" class="contact-link">💼 LinkedIn</a>
+        <a href="#" class="contact-link">🐙 GitHub</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Designed & built with ✦ by Amy &nbsp;·&nbsp; 2024</p>
+</footer>
+
 </body>
 </html>
